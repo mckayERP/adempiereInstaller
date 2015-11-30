@@ -34,7 +34,6 @@
 ; *************************************
 ; Uncomment the following line for a off-line install
 ;!define OFF-LINE
-;!define SKIP_AD
 
 ; *********************************
 ; Common basic defines
@@ -56,7 +55,7 @@
 ; on-line install is being built.  The directory could also be pointed at the 
 ; ADEMPIERE_HOME directory after a clean extract of the zipped binaries and
 ; before any setup has been performed.
-!define SOURCE_FILE_DIR "..\..\..\adempiere\install\build\Adempiere"
+!define SOURCE_FILE_DIR ".\tools\Adempiere"
 
 !define TOOL_FILE_DIR ".\tools"
 !define UTILS_FILE_DIR ".\utils"
@@ -79,18 +78,18 @@
 ; JDK defines - name of the install executable and 
 ; the default install location
 !ifdef AD_WIN32_INSTALL
-    !define JDK_NAME "Java JDK 1.8 Update 66 (Win x32)"
-    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u66-b17/jdk-8u66-windows-i586.exe"
-    !define JDK_INSTALLER "jdk-8u66-windows-i586.exe"
-    !define JDK_DEFAULT_DIR "$PROGRAMFILES\Java\jdk1.8.0_66"
-    !define JAVA_HOME "$PROGRAMFILES\Java\jdk1.8.0_66"
+    !define JDK_NAME "Java JDK 1.8 Update 65 (Win x32)"
+    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-windows-i586.exe"
+    !define JDK_INSTALLER "jdk-8u65-windows-i586.exe"
+    !define JDK_DEFAULT_DIR "$PROGRAMFILES\Java\jdk1.8.0_65"
+    !define JAVA_HOME "$PROGRAMFILES\Java\jdk1.8.0_65"
     !define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
 !else
-    !define JDK_NAME "Java JDK 1.8 Update 60 (Win x64)"
-    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-windows-x64.exe"
-    !define JDK_INSTALLER "jdk-8u60-windows-x64.exe"
-    !define JDK_DEFAULT_DIR "$PROGRAMFILES64\Java\jdk1.8.0_60"
-    !define JAVA_HOME "$PROGRAMFILES64\Java\jdk1.8.0_60"
+    !define JDK_NAME "Java JDK 1.8 Update 65 (Win x64)"
+    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-windows-x64.exe"
+    !define JDK_INSTALLER "jdk-8u65-windows-x64.exe"
+    !define JDK_DEFAULT_DIR "$PROGRAMFILES64\Java\jdk1.8.0_65"
+    !define JAVA_HOME "$PROGRAMFILES64\Java\jdk1.8.0_65"
     !define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
 !endif
 !define JDK_MIN_VERSION "1.7"
@@ -100,20 +99,20 @@
 ; PostgreSQL defines - name of the install executable and 
 ; the default install location
 !ifdef AD_WIN32_INSTALL
-    !define PG_NAME "PostgreSQL 9.4.5-1 (Win x32)"
-    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-1-windows.exe"
-    !define PG_INSTALLER "postgresql-9.4.5-1-windows.exe"
+    !define PG_NAME "PostgreSQL 9.4.5-2 (Win x32)"
+    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-2-windows.exe"
+    !define PG_INSTALLER "postgresql-9.4.5-2-windows.exe"
     !define PG_DEFAULT_DIR "$PROGRAMFILES\PostgreSQL\9.4"
-    !define PG_SERVICE_ID "postgresql-x64-9.4"
-    !define PG_VERSION_DETAIL "9.4.5-1"
+    !define PG_SERVICE_ID "postgresql-9.4"
+    !define PG_VERSION_DETAIL "9.4.5-2"
     !define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
 !else
-    !define PG_NAME "PostgreSQL 9.4.5-1 Win x64"
-    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-1-windows-x64.exe"
-    !define PG_INSTALLER "postgresql-9.4.5-1-windows-x64.exe"
+    !define PG_NAME "PostgreSQL 9.4.5-2 Win x64"
+    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-2-windows-x64.exe"
+    !define PG_INSTALLER "postgresql-9.4.5-2-windows-x64.exe"
     !define PG_DEFAULT_DIR "$PROGRAMFILES64\PostgreSQL\9.4"
     !define PG_SERVICE_ID "postgresql-x64-9.4"
-    !define PG_VERSION_DETAIL "9.4.5-1"
+    !define PG_VERSION_DETAIL "9.4.5-2"
     !define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
 !endif
 !define PG_MIN_VERSION "9.0"        ; Minimun acceptable PG Version
@@ -134,7 +133,7 @@ Name "${PRODUCT_NAME} $PRODUCT_VERSION"
     !define OS_TAG "win_x64"
 !endif
 
-OutFile "${OUT_DIR}\Adempiere_${PRODUCT_VERSION}${PRODUCT_PATCH}_${OS_TAG}${OFF_LINE_TAG}.exe"
+OutFile "${OUT_DIR}\${PRODUCT_NAME}_${PRODUCT_VERSION}${PRODUCT_PATCH}_${OS_TAG}${OFF_LINE_TAG}.exe"
 
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 AllowRootDirInstall true
@@ -172,7 +171,6 @@ Section "${PRODUCT_NAME} ${PRODUCT_VERSION}${PRODUCT_PATCH}" AD_SECTION
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" $ADEMPIERE_HOME
   SetOutPath "$ADEMPIERE_HOME"
   
-!ifndef SKIP_AD
   !ifdef OFF-LINE
       ; Extract the ADempiere files
       File /r "${SOURCE_FILE_DIR}\*.*"
@@ -223,7 +221,7 @@ Section "${PRODUCT_NAME} ${PRODUCT_VERSION}${PRODUCT_PATCH}" AD_SECTION
   ShellLink::SetShortCutWorkingDirectory "$SMPROGRAMS\ADempiere\ADempiere Client.lnk" "$ADEMPIERE_HOME\lib"
   ;CreateShortCut "$SMPROGRAMS\ADempiere\Server\Install ADempiere server as a service.lnk" "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Install_64.bat"
   ;CreateShortCut "$SMPROGRAMS\ADempiere\Server\Remove ADempiere server service.lnk" "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Uninstall_64.bat"
-!endif
+
 SectionEnd
 
 Section "${JDK_NAME}" JDK_SECTION

@@ -67,6 +67,22 @@
 		</fail>
     </target>
 
+   <target name="-win64-offline">
+        <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
+            <!-- passing the script -->
+            <arg value="/V4" /> <!-- Verbose, all output -->
+            <arg value="${build.path}\Adempiere_winx64-offline.nsi"/>
+        </exec>
+        
+        <fail message="Makensis for Adempiere Windows x64 offline Installer failed with result ${nsis_result}. See output for more info.">
+            <condition>
+               <not>
+                 <equals arg1="${nsis_result}" arg2=""/>
+               </not>
+             </condition>
+        </fail>
+    </target>
+
    <target name="-win32">
         <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
             <!-- passing the script -->
@@ -82,7 +98,23 @@
              </condition>
         </fail>
     </target>
-		
+
+   <target name="-win32-offline">
+        <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
+            <!-- passing the script -->
+            <arg value="/V4" /> <!-- Verbose, all output -->
+            <arg value="${build.path}\Adempiere_winx32-offline.nsi"/>
+        </exec>
+        
+        <fail message="Makensis for Adempiere Windows x32 Offline Installer failed with result ${nsis_result}. See output for more info.">
+            <condition>
+               <not>
+                 <equals arg1="${nsis_result}" arg2=""/>
+               </not>
+             </condition>
+        </fail>
+    </target>
+
     <target name="-cleanup">
     	<!-- If building offline installers
         <move todir="${build.dir}">
@@ -95,10 +127,22 @@
     <target name="win64" description="Generate the win64 installer." depends="-init, -win64, -cleanup">
     </target>
 
-    <target name="win32" description="Generate the win32 installer." depends="-init, -win32, -cleanup">
+    <target name="win64-offline" description="Generate the win64 offline installer." depends="-init, -win64-offline, -cleanup">
     </target>
 
-    <target name="all" description="Generate the all windows installers." depends="-init, -win64, -win32, -cleanup">
+	<target name="win32" description="Generate the win32 installer." depends="-init, -win32, -cleanup">
+    </target>
+
+    <target name="win32-offline" description="Generate the win32 offline installer." depends="-init, -win32-offline, -cleanup">
+    </target>
+
+    <target name="online" description="Generate only the online windows installers." depends="-init, -win64, -win32, -cleanup">
+    </target>
+
+    <target name="offline" description="Generate only the offline windows installers." depends="-init, -win64-offline, -win32-offline, -cleanup">
+    </target>
+
+	<target name="all" description="Generate all the windows installers." depends="-init, -win64, -win64-offline, -win32, -win32-offline, -cleanup">
     </target>
 
 </project>

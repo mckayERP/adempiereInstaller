@@ -17,7 +17,7 @@
  */
 
 ; *********************************
-; This NSIS script will create a windows 32-bit installer for ADempiere with 
+; This NSIS script will create an offline windows 32-bit installer for ADempiere with 
 ; Java and PostgreSQL.  
 ; 
 ; NSIS, and the installers for Java and Postgres are not included in the 
@@ -25,11 +25,12 @@
 ; 
 ; Please read the Readme.txt file for more information on using this script.
 
-; *********************************
-; Windows x32 specific defines
-; *********************************
-!define AD_WIN32_INSTALL  ; 64bit is the default
+; *************************************
+; Configure as a off-line or on-line (light) install
+; *************************************
+; Uncomment the following line for a off-line install
+!define OFF-LINE
 
 ; *********************************
 ; Include the main install script 
-!include Adempiere_winx64.nsi
+!include Adempiere_winx32.nsi
